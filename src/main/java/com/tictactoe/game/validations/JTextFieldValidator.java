@@ -2,7 +2,7 @@ package com.tictactoe.game.validations;
 
 import javax.swing.*;
 
-public class JTextFieldValidator extends Validator<JTextField> {
+public class JTextFieldValidator implements Validator<JTextField> {
 
     @Override
     public void validate(JTextField object) {
