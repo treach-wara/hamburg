@@ -1,23 +1,35 @@
-package com.tictactoe.game.windows;
+package com.tictactoe.views;
+
+import com.tictactoe.game.user.User;
+import com.tictactoe.windows.MainWindow;
+import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class SetupWindow {
-    JFrame frame;
-    JPanel contentPanel;
-    GroupLayout layout;
-    JButton confirmButton1;
-    JButton confirmButton2;
-    JButton startGameButton;
-    JTextField userTextField1;
-    JTextField userTextField2;
-    JLabel player1;
-    JLabel player2;
-    public SetupWindow(){
+@Getter
+public class SetupView {
+
+    private final JPanel contentPanel;
+    private GroupLayout layout;
+    private JButton confirmButton1;
+    private JButton confirmButton2;
+    private JButton startGameButton;
+    private JTextField userTextField1;
+    private JTextField userTextField2;
+    private JLabel player1;
+    private JLabel player2;
+    private User  user1;
+    private User user2;
+    private final MainWindow mainWindow;
+
+
+
+    public SetupView(MainWindow mainWindow){
+        this.mainWindow = mainWindow;
         contentPanel = new JPanel();
-        contentPanel.setPreferredSize(new Dimension(400,200));
-
         setHeading();
         createLabels();
 
@@ -29,14 +41,7 @@ public class SetupWindow {
         contentPanel.setLayout(layout);
     }
 
-    public void initialize(){
-        frame = new JFrame("Setup");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.getContentPane().add(this.contentPanel);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
+
 
     private JLabel setHeading(){
         JLabel heading = new JLabel("Set up your configuration", SwingConstants.CENTER);
@@ -49,10 +54,46 @@ public class SetupWindow {
 
     }
 
+    private void startGameButton(){
+        if (user1 != null & user2 != null){
+            startGameButton.setEnabled(true);
+
+        }
+    }
+
     private void createButtons(){
         confirmButton1 = new JButton("confirm");
         confirmButton2 = new JButton("confirm");
         startGameButton = new JButton("Start Game");
+        startGameButton.setEnabled(false);
+
+        confirmButton1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                user1 = new User(userTextField1.getText());
+                System.out.println(user1.getName());
+                startGameButton();
+            }
+        });
+
+        confirmButton2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                user2 = new User(userTextField2.getText());
+                System.out.println(user2.getName());
+                startGameButton();
+            }
+        });
+
+        startGameButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(user1.getName() + " spielt gegen " + user2.getName());
+                mainWindow.changeToGamePanel();
+            }
+
+        });
+
     }
 
     private void createTextFields(){

@@ -16,4 +16,5 @@ public class ButtonMouseEventListener extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         button.setText(Symbol.X.toString());
     }
+
 }

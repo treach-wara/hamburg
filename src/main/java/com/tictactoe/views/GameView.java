@@ -1,15 +1,16 @@
-package com.tictactoe.game.grid;
+package com.tictactoe.views;
 
+import com.tictactoe.game.grid.ButtonMouseEventListener;
+import com.tictactoe.game.grid.Symbol;
 import lombok.Getter;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
-public class Grid {
-
+public class GameView {
     @Getter
-    private JPanel grid;
+    private JPanel gridPanel;
     @Getter
     // we don't actually need this, we can just get the child elements from the grid panel
     private final JButton[][] buttons = new JButton[ROW][COLUMN];
@@ -21,8 +22,9 @@ public class Grid {
     private static final int FONT_SIZE = 100;
     private static final int BUTTON_SIZE = 100;
 
-    public Grid() {
-        grid = new JPanel(new GridLayout(ROW, COLUMN));
+    public GameView() {
+        gridPanel = new JPanel(new GridLayout(ROW, COLUMN));
+        gridPanel.setPreferredSize(new Dimension(1000, 1000));
         create();
     }
 
@@ -36,7 +38,7 @@ public class Grid {
                 buttons[i][j] = new JButton();
                 setDefaultButtonProperties(buttons[i][j]);
                 buttons[i][j].addMouseListener(new ButtonMouseEventListener(buttons[i][j]));
-                grid.add(buttons[i][j]);
+                gridPanel.add(buttons[i][j]);
             }
         }
     }
