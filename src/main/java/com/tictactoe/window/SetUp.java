@@ -19,16 +19,10 @@ public class SetUp {
         contentPanel.setPreferredSize(new Dimension(400,200));
 
         setHeading();
-        setPlayerLabels();
+        createLabels();
 
         createButtons();
         createTextFields();
-
-        // add content to contentPanel
-    /*    contentPanel.add(setHeading());
-        contentPanel.add(setPlayerLabel1());
-        contentPanel.add(setPlayerLabel2());*/
-
 
         // add GroupLayout
         createGroupLayout();
@@ -49,9 +43,10 @@ public class SetUp {
         heading.setFont(new Font("Monospace", Font.BOLD, 40));
         return heading;
     }
-    private void setPlayerLabels(){
+    private void createLabels(){
         player1 = new JLabel("Player 1");
         player2 = new JLabel("Player 2");
+
     }
 
     private void createButtons(){
