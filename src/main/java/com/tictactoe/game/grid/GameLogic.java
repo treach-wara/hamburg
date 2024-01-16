@@ -1,7 +1,5 @@
 package com.tictactoe.game.grid;
 
-import com.tictactoe.game.Symbol;
-
 import javax.swing.*;
 
 public class GameLogic {

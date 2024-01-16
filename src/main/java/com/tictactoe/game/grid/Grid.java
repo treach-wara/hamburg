@@ -1,6 +1,5 @@
 package com.tictactoe.game.grid;
 
-import com.tictactoe.game.Symbol;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -23,11 +22,12 @@ public class Grid {
     private static final int BUTTON_SIZE = 100;
 
     public Grid() {
-        this.grid = new JPanel(new GridLayout(ROW, COLUMN));
+        grid = new JPanel(new GridLayout(ROW, COLUMN));
+        create();
     }
 
     public void create() {
-        this.addButtons();
+        addButtons();
     }
 
     private void addButtons() {

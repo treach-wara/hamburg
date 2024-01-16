@@ -1,18 +1,10 @@
 package com.tictactoe;
 
-import com.tictactoe.window.SetUp;
-
-import javax.swing.*;
-import java.awt.*;
+import com.tictactoe.game.views.SetupWindow;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable(){
-            @Override
-            public void run(){
-                SetUp frame = new SetUp();
-                frame.initialize();
-            }
-        });
+        SetupWindow setupWindow = new SetupWindow();
+        setupWindow.initialize();
     }
 }

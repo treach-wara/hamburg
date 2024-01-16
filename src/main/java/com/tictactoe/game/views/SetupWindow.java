@@ -1,9 +1,9 @@
-package com.tictactoe.window;
+package com.tictactoe.game.views;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SetUp {
+public class SetupWindow {
     JFrame frame;
     JPanel contentPanel;
     GroupLayout layout;
@@ -14,7 +14,7 @@ public class SetUp {
     JTextField userTextField2;
     JLabel player1;
     JLabel player2;
-    public SetUp(){
+    public SetupWindow(){
         contentPanel = new JPanel();
         contentPanel.setPreferredSize(new Dimension(400,200));
 
