@@ -1,6 +1,6 @@
 package com.tictactoe;
 
-import com.tictactoe.game.views.SetupWindow;
+import com.tictactoe.game.windows.SetupWindow;
 
 public class Main {
     public static void main(String[] args) {

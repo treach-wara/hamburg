@@ -1,4 +1,4 @@
-package com.tictactoe.game.views;
+package com.tictactoe.game.windows;
 
 import javax.swing.*;
 import java.awt.*;
