@@ -17,10 +17,19 @@ public class GameLogic {
     public Symbol calculateWinner() {
         Symbol rowWinner = calculateRows();
         Symbol columnWinner = calculateColumns();
+        Symbol diagonalWinner = calculateDiagonals();
+
         if (rowWinner != Symbol.U) {
             return rowWinner;
         }
-        return columnWinner;
+        if (columnWinner != Symbol.U) {
+            return rowWinner;
+        }
+
+        if (diagonalWinner != Symbol.U) {
+            return rowWinner;
+        }
+        return Symbol.U;
     }
 
     private Symbol calculateRows() {
@@ -51,6 +60,20 @@ public class GameLogic {
                     buttons[2][column].getText().equals("O")) {
                 return Symbol.O;
             }
+        }
+        return Symbol.U;
+    }
+
+    private Symbol calculateDiagonals() {
+        if (buttons[0][2].getText().equals("X") &&
+                buttons[1][1].getText().equals("X") &&
+                buttons[2][0].getText().equals("X")) {
+            return Symbol.X;
+        }
+        if (buttons[0][0].getText().equals("X") &&
+                buttons[1][1].getText().equals("X") &&
+                buttons[2][2].getText().equals("X")) {
+            return Symbol.X;
         }
         return Symbol.U;
     }
