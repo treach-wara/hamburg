@@ -15,7 +15,7 @@ import java.awt.Font;
 public class GameView {
 
     @Getter
-    private final JPanel gridPanel;
+    private final JPanel panel;
     // todo: we don't actually need this, we can just get the child elements from the grid panel
     @Getter
     private final JButton[][] buttons = new JButton[ROW][COLUMN];
@@ -30,8 +30,8 @@ public class GameView {
 
 
     public GameView() {
-        gridPanel = new JPanel(new GridLayout(ROW, COLUMN));
-        gridPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        panel = new JPanel(new GridLayout(ROW, COLUMN));
+        panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         create();
     }
 
@@ -45,7 +45,7 @@ public class GameView {
                 buttons[i][j] = new JButton();
                 setDefaultButtonProperties(buttons[i][j]);
                 buttons[i][j].addMouseListener(new ButtonMouseEventListener(buttons[i][j]));
-                gridPanel.add(buttons[i][j]);
+                panel.add(buttons[i][j]);
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.tictactoe.views;
 
+import com.tictactoe.game.listeners.StartButtonListener;
 import com.tictactoe.game.user.User;
 import com.tictactoe.windows.MainWindow;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import java.awt.event.MouseEvent;
 @Getter
 public class SetupView {
 
-    private final JPanel contentPanel = new JPanel();
+    private final JPanel panel = new JPanel();
     private GroupLayout layout;
     private JButton confirmButton1;
     private JButton confirmButton2;
@@ -30,15 +31,17 @@ public class SetupView {
     private User  user1;
     private User user2;
     private final MainWindow mainWindow;
+    private final GameView gameView;
 
     public SetupView(MainWindow mainWindow) {
+        gameView = new GameView();
         this.mainWindow = mainWindow;
         setHeading();
         createLabels();
         createButtons();
         createTextFields();
         createGroupLayout();
-        contentPanel.setLayout(layout);
+        panel.setLayout(layout);
     }
 
     private void setHeading() {
@@ -81,14 +84,7 @@ public class SetupView {
             }
         });
 
-        startGameButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println(user1.getName() + " spielt gegen " + user2.getName());
-                mainWindow.changeToGamePanel();
-            }
-
-        });
+        startGameButton.addMouseListener(new StartButtonListener(mainWindow, this, gameView));
     }
 
     private void createTextFields() {
@@ -97,7 +93,7 @@ public class SetupView {
     }
 
     private void createGroupLayout() {
-        layout = new GroupLayout(this.contentPanel);
+        layout = new GroupLayout(this.panel);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
