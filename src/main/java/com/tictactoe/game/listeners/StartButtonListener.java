@@ -5,7 +5,6 @@ import com.tictactoe.views.SetupView;
 import com.tictactoe.views.WindowUtility;
 import com.tictactoe.windows.MainWindow;
 
-import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,10 +15,10 @@ public class StartButtonListener extends MouseAdapter {
     private final GameView gameView;
     private final WindowUtility utility;
 
-    public StartButtonListener(MainWindow mainWindow, SetupView setupView, GameView gameView) {
+    public StartButtonListener(MainWindow mainWindow, SetupView setupView) {
         this.mainWindow = mainWindow;
         this.setupView = setupView;
-        this.gameView = gameView;
+        gameView = new GameView();
         utility = new WindowUtility(mainWindow.getWindow());
     }
 
