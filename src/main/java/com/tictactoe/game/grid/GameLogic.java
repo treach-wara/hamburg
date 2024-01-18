@@ -1,6 +1,6 @@
 package com.tictactoe.game.grid;
 
-import javax.swing.*;
+import javax.swing.JButton;
 
 public class GameLogic {
 
@@ -17,7 +17,7 @@ public class GameLogic {
     public Symbol calculateWinner() {
         Symbol rowWinner = calculateRows();
         Symbol columnWinner = calculateColumns();
-        if(rowWinner != Symbol.U) {
+        if (rowWinner != Symbol.U) {
             return rowWinner;
         }
         return columnWinner;

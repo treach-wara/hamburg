@@ -1,12 +1,12 @@
 package com.tictactoe.game.grid;
 
-import javax.swing.*;
+import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ButtonMouseEventListener extends MouseAdapter {
 
-    private JButton button;
+    private final JButton button;
 
     public ButtonMouseEventListener(JButton button) {
         this.button = button;
@@ -16,5 +16,4 @@ public class ButtonMouseEventListener extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         button.setText(Symbol.X.toString());
     }
-
 }

@@ -1,30 +1,37 @@
 package com.tictactoe.views;
 
 import com.tictactoe.game.grid.ButtonMouseEventListener;
-import com.tictactoe.game.grid.Symbol;
 import lombok.Getter;
 
-import javax.swing.*;
 import javax.swing.plaf.basic.BasicBorders;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Font;
+
 
 public class GameView {
+
     @Getter
-    private JPanel gridPanel;
+    private final JPanel gridPanel;
+    // todo: we don't actually need this, we can just get the child elements from the grid panel
     @Getter
-    // we don't actually need this, we can just get the child elements from the grid panel
     private final JButton[][] buttons = new JButton[ROW][COLUMN];
-    private Symbol symbol;
 
     /* constants */
     private static final int ROW = 3;
     private static final int COLUMN = 3;
     private static final int FONT_SIZE = 100;
     private static final int BUTTON_SIZE = 100;
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 1000;
+
 
     public GameView() {
         gridPanel = new JPanel(new GridLayout(ROW, COLUMN));
-        gridPanel.setPreferredSize(new Dimension(1000, 1000));
+        gridPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         create();
     }
 

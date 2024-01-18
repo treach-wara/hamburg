@@ -4,15 +4,21 @@ import com.tictactoe.game.user.User;
 import com.tictactoe.windows.MainWindow;
 import lombok.Getter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import javax.swing.GroupLayout;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.JButton;
+
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 @Getter
 public class SetupView {
 
-    private final JPanel contentPanel;
+    private final JPanel contentPanel = new JPanel();
     private GroupLayout layout;
     private JButton confirmButton1;
     private JButton confirmButton2;
@@ -25,43 +31,33 @@ public class SetupView {
     private User user2;
     private final MainWindow mainWindow;
 
-
-
-    public SetupView(MainWindow mainWindow){
+    public SetupView(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
-        contentPanel = new JPanel();
         setHeading();
         createLabels();
-
         createButtons();
         createTextFields();
-
-        // add GroupLayout
         createGroupLayout();
         contentPanel.setLayout(layout);
     }
 
-
-
-    private JLabel setHeading(){
+    private void setHeading() {
         JLabel heading = new JLabel("Set up your configuration", SwingConstants.CENTER);
         heading.setFont(new Font("Monospace", Font.BOLD, 40));
-        return heading;
     }
-    private void createLabels(){
+
+    private void createLabels() {
         player1 = new JLabel("Player 1");
         player2 = new JLabel("Player 2");
-
     }
 
-    private void startGameButton(){
+    private void startGameButton() {
         if (user1 != null & user2 != null){
             startGameButton.setEnabled(true);
-
         }
     }
 
-    private void createButtons(){
+    private void createButtons() {
         confirmButton1 = new JButton("confirm");
         confirmButton2 = new JButton("confirm");
         startGameButton = new JButton("Start Game");
@@ -93,17 +89,15 @@ public class SetupView {
             }
 
         });
-
     }
 
-    private void createTextFields(){
+    private void createTextFields() {
         userTextField1 = new JTextField();
         userTextField2 = new JTextField();
     }
 
-    private void createGroupLayout(){
+    private void createGroupLayout() {
         layout = new GroupLayout(this.contentPanel);
-        // creates automatic gap insertion
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
@@ -137,11 +131,10 @@ public class SetupView {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(startGameButton)
                 )
-
         );
     }
 
-    private void linkSizeElements(){
+    private void linkSizeElements() {
         layout.linkSize(SwingConstants.HORIZONTAL, player1, userTextField1, confirmButton1);
         layout.linkSize(SwingConstants.VERTICAL, player1, userTextField1, confirmButton1);
         layout.linkSize(SwingConstants.HORIZONTAL, player2, userTextField2, confirmButton2);
