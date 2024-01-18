@@ -29,6 +29,7 @@ public class GameView {
     private static final int HEIGHT = 1000;
 
 
+
     public GameView() {
         gridPanel = new JPanel(new GridLayout(ROW, COLUMN));
         gridPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));

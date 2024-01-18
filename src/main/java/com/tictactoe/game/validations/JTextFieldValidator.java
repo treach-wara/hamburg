@@ -2,10 +2,11 @@ package com.tictactoe.game.validations;
 
 import javax.swing.JTextField;
 
-public class JTextFieldValidator implements Validator<JTextField> {
+public class JTextFieldValidator implements Validator<String> {
 
     @Override
-    public void validate(JTextField object) {
-
+    public void validate(String text) {
+        Validation.isNotNull(text);
+        Validation.isInRange(text);
     }
 }
