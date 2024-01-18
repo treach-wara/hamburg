@@ -12,6 +12,7 @@ public class StartButtonMouseListener extends MouseAdapter {
     public StartButtonMouseListener(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
     }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         mainWindow.changeToGamePanel();

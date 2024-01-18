@@ -1,6 +1,6 @@
 package com.tictactoe.game.validations;
 
-import javax.swing.*;
+import javax.swing.JTextField;
 
 public class JTextFieldValidator implements Validator<JTextField> {
 
