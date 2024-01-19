@@ -1,5 +1,7 @@
 package com.tictactoe.views;
 
+import com.tictactoe.game.grid.Symbol;
+import com.tictactoe.game.listeners.StartButtonListener;
 import com.tictactoe.game.user.User;
 import com.tictactoe.windows.MainWindow;
 import lombok.Getter;
@@ -18,15 +20,15 @@ import java.awt.event.MouseEvent;
 @Getter
 public class SetupView {
 
-    private final JPanel contentPanel = new JPanel();
+    private final JPanel panel = new JPanel();
     private GroupLayout layout;
     private JButton confirmButton1;
     private JButton confirmButton2;
     private JButton startGameButton;
     private JTextField userTextField1;
     private JTextField userTextField2;
-    private JLabel player1;
-    private JLabel player2;
+    private JLabel userLabel1;
+    private JLabel userLabel2;
     private User  user1;
     private User user2;
     private final MainWindow mainWindow;
@@ -38,7 +40,7 @@ public class SetupView {
         createButtons();
         createTextFields();
         createGroupLayout();
-        contentPanel.setLayout(layout);
+        panel.setLayout(layout);
     }
 
     private void setHeading() {
@@ -47,8 +49,8 @@ public class SetupView {
     }
 
     private void createLabels() {
-        player1 = new JLabel("Player 1");
-        player2 = new JLabel("Player 2");
+        userLabel1 = new JLabel("Player 1");
+        userLabel2 = new JLabel("Player 2");
     }
 
     private void startGameButton() {
@@ -66,7 +68,7 @@ public class SetupView {
         confirmButton1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                user1 = new User(userTextField1.getText());
+                user1 = new User(userTextField1.getText(), Symbol.X);
                 System.out.println(user1.getName());
                 startGameButton();
             }
@@ -75,20 +77,13 @@ public class SetupView {
         confirmButton2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                user2 = new User(userTextField2.getText());
+                user2 = new User(userTextField2.getText(), Symbol.O);
                 System.out.println(user2.getName());
                 startGameButton();
             }
         });
 
-        startGameButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println(user1.getName() + " spielt gegen " + user2.getName());
-                mainWindow.changeToGamePanel();
-            }
-
-        });
+        startGameButton.addMouseListener(new StartButtonListener(mainWindow, this));
     }
 
     private void createTextFields() {
@@ -97,14 +92,14 @@ public class SetupView {
     }
 
     private void createGroupLayout() {
-        layout = new GroupLayout(this.contentPanel);
+        layout = new GroupLayout(this.panel);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(player1)
-                        .addComponent(player2)
+                        .addComponent(userLabel1)
+                        .addComponent(userLabel2)
                 )
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(userTextField1)
@@ -119,12 +114,12 @@ public class SetupView {
         linkSizeElements();
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(player1)
+                        .addComponent(userLabel1)
                         .addComponent(userTextField1)
                         .addComponent(confirmButton1)
                 )
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(player2)
+                        .addComponent(userLabel2)
                         .addComponent(userTextField2)
                         .addComponent(confirmButton2)
                 )
@@ -135,9 +130,9 @@ public class SetupView {
     }
 
     private void linkSizeElements() {
-        layout.linkSize(SwingConstants.HORIZONTAL, player1, userTextField1, confirmButton1);
-        layout.linkSize(SwingConstants.VERTICAL, player1, userTextField1, confirmButton1);
-        layout.linkSize(SwingConstants.HORIZONTAL, player2, userTextField2, confirmButton2);
-        layout.linkSize(SwingConstants.VERTICAL, player2, userTextField2, confirmButton2);
+        layout.linkSize(SwingConstants.HORIZONTAL, userLabel1, userTextField1, confirmButton1);
+        layout.linkSize(SwingConstants.VERTICAL, userLabel1, userTextField1, confirmButton1);
+        layout.linkSize(SwingConstants.HORIZONTAL, userLabel2, userTextField2, confirmButton2);
+        layout.linkSize(SwingConstants.VERTICAL, userLabel2, userTextField2, confirmButton2);
     }
 }
