@@ -1,13 +1,35 @@
 package com.tictactoe.game.grid;
 
+import com.tictactoe.game.user.User;
+
 import javax.swing.JButton;
+import java.util.Random;
 
 public class GameLogic {
 
     private final JButton[][] buttons;
+    private final User user1;
+    private final User user2;
 
-    public GameLogic(JButton[][] buttons) {
+    public GameLogic(JButton[][] buttons, User user1, User user2) {
         this.buttons = buttons;
+        this.user1 = user1;
+        this.user2 = user2;
+    }
+
+    public void setStartingUser() {
+        if (new Random().nextBoolean()) {
+            user1.setNext(true);
+        } else {
+            user2.setNext(true);
+        }
+    }
+
+    public void start(JButton button) {
+        setStartingUser();
+        setSymbol(button);
+        swapTurn();
+        determineWinner();
     }
 
     /**
@@ -53,5 +75,33 @@ public class GameLogic {
             }
         }
         return Symbol.U;
+    }
+
+    private void determineWinner() {
+        Symbol winner = calculateWinner();
+        switch (winner) {
+            case X -> System.out.println("X hat gewonnen!");
+            case O -> System.out.println("O hat gewonnen!");
+            case U -> System.out.println("Niemand hat gewonnen");
+        }
+    }
+
+    private void setSymbol(JButton button) {
+        if(user1.isNext()) {
+            button.setText(user1.getSymbol().name());
+        } else {
+            button.setText(user2.getSymbol().name());
+        }
+        button.setEnabled(false);
+    }
+
+    private void swapTurn() {
+        if (user1.isNext()) {
+            user1.setNext(false);
+            user2.setNext(true);
+        } else {
+            user1.setNext(true);
+            user2.setNext(false);
+        }
     }
 }

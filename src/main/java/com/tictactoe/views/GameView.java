@@ -1,7 +1,8 @@
 package com.tictactoe.views;
 
-import com.tictactoe.game.listeners.GridButtonListener;
+
 import com.tictactoe.game.grid.GameLogic;
+import com.tictactoe.game.user.User;
 import lombok.Getter;
 
 import javax.swing.plaf.basic.BasicBorders;
@@ -11,6 +12,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class GameView {
@@ -27,11 +30,17 @@ public class GameView {
     // todo: we don't actually need this, we can just get the child elements from the grid panel
     @Getter
     private final JButton[][] buttons = new JButton[ROW][COLUMN];
+    private final GameLogic gameLogic;
+
+    private final User user1;
+    private final User user2;
 
 
-    public GameView() {
+    public GameView(User user1, User user2) {
         create();
-        GridButtonListener.GAME_LOGIC = new GameLogic(buttons);
+        this.user1 = user1;
+        this.user2 = user2;
+        gameLogic = new GameLogic(buttons, user1, user2);
     }
 
     public void create() {
@@ -43,14 +52,14 @@ public class GameView {
         for (int i = 0; i < ROW; i++) {
             for (int j = 0; j < COLUMN; j++) {
                 buttons[i][j] = new JButton();
-                setDefaultButtonProperties(buttons[i][j]);
-                buttons[i][j].addActionListener(new GridButtonListener(buttons[i][j]));
+                setButtonProperties(buttons[i][j]);
+                setButtonListener(buttons[i][j]);
                 panel.add(buttons[i][j]);
             }
         }
     }
 
-    private void setDefaultButtonProperties(JButton button) {
+    private void setButtonProperties(JButton button) {
         button.setText("");
         button.setFont(new Font("Ubuntu", Font.BOLD, FONT_SIZE));
         button.setPreferredSize(new Dimension(BUTTON_SIZE, BUTTON_SIZE));
@@ -62,5 +71,9 @@ public class GameView {
                         Color.BLACK,
                         Color.BLACK)
         );
+    }
+
+    private void setButtonListener(JButton button) {
+        button.addActionListener(event -> gameLogic.start(button));
     }
 }

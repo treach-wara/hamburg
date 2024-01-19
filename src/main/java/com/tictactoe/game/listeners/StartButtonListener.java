@@ -12,13 +12,12 @@ public class StartButtonListener extends MouseAdapter {
 
     private final MainWindow mainWindow;
     private final SetupView setupView;
-    private final GameView gameView;
+    private GameView gameView;
     private final WindowUtility utility;
 
     public StartButtonListener(MainWindow mainWindow, SetupView setupView) {
         this.mainWindow = mainWindow;
         this.setupView = setupView;
-        gameView = new GameView();
         utility = new WindowUtility(mainWindow.getWindow());
     }
 
@@ -31,6 +30,7 @@ public class StartButtonListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        gameView = new GameView(setupView.getUser1(), setupView.getUser2());
         changeToGamePanel();
     }
 }

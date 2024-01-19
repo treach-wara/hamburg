@@ -10,6 +10,7 @@ public class User {
 
     private String name;
     private Symbol symbol;
+    private boolean next = false;
 
     public User(String username, Symbol symbol){
         this.name = username;

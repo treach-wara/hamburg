@@ -27,8 +27,8 @@ public class SetupView {
     private JButton startGameButton;
     private JTextField userTextField1;
     private JTextField userTextField2;
-    private JLabel player1;
-    private JLabel player2;
+    private JLabel userLabel1;
+    private JLabel userLabel2;
     private User  user1;
     private User user2;
     private final MainWindow mainWindow;
@@ -49,8 +49,8 @@ public class SetupView {
     }
 
     private void createLabels() {
-        player1 = new JLabel("Player 1");
-        player2 = new JLabel("Player 2");
+        userLabel1 = new JLabel("Player 1");
+        userLabel2 = new JLabel("Player 2");
     }
 
     private void startGameButton() {
@@ -98,8 +98,8 @@ public class SetupView {
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(player1)
-                        .addComponent(player2)
+                        .addComponent(userLabel1)
+                        .addComponent(userLabel2)
                 )
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(userTextField1)
@@ -114,12 +114,12 @@ public class SetupView {
         linkSizeElements();
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(player1)
+                        .addComponent(userLabel1)
                         .addComponent(userTextField1)
                         .addComponent(confirmButton1)
                 )
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(player2)
+                        .addComponent(userLabel2)
                         .addComponent(userTextField2)
                         .addComponent(confirmButton2)
                 )
@@ -130,9 +130,9 @@ public class SetupView {
     }
 
     private void linkSizeElements() {
-        layout.linkSize(SwingConstants.HORIZONTAL, player1, userTextField1, confirmButton1);
-        layout.linkSize(SwingConstants.VERTICAL, player1, userTextField1, confirmButton1);
-        layout.linkSize(SwingConstants.HORIZONTAL, player2, userTextField2, confirmButton2);
-        layout.linkSize(SwingConstants.VERTICAL, player2, userTextField2, confirmButton2);
+        layout.linkSize(SwingConstants.HORIZONTAL, userLabel1, userTextField1, confirmButton1);
+        layout.linkSize(SwingConstants.VERTICAL, userLabel1, userTextField1, confirmButton1);
+        layout.linkSize(SwingConstants.HORIZONTAL, userLabel2, userTextField2, confirmButton2);
+        layout.linkSize(SwingConstants.VERTICAL, userLabel2, userTextField2, confirmButton2);
     }
 }
