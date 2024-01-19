@@ -179,10 +179,7 @@ public class SetupView {
         );
         linkSizeElements();
         layout.setVerticalGroup(layout.createSequentialGroup()
-              /*  .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(setUpLabel)
 
-                )*/
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(player1)
                         .addComponent(userTextField1)
