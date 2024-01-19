@@ -1,6 +1,7 @@
 package com.tictactoe.views;
 
 import com.tictactoe.game.user.User;
+import com.tictactoe.game.validations.JTextFieldValidator;
 import com.tictactoe.windows.MainWindow;
 import lombok.Getter;
 
@@ -16,6 +17,8 @@ import java.awt.event.MouseEvent;
 public class SetupView {
 
     private final JPanel contentPanel = new JPanel();
+    private final MainWindow mainWindow;
+    private final JTextFieldValidator validator = new JTextFieldValidator();
 
     private GroupLayout layout;
 
@@ -36,8 +39,8 @@ public class SetupView {
     private User  user1;
     private User user2;
 
-    private final MainWindow mainWindow;
-
+    private static final int MAX_NAME_LENGHT = 12;
+    private static final int MIN_NAME_LENGHT = 2;
 
 
     public SetupView(MainWindow mainWindow) {
@@ -64,9 +67,11 @@ public class SetupView {
         setUpLabel.setText("Bitte Charakternamen eingeben, maximal 10 Zeichen");
 
         warningLabel1 = new JLabel("Bitte Usernamen wählen.");
-        warningLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+        warningLabel1.setFont(new Font("Ubuntu", Font.BOLD, 12));
+
         warningLabel2 = new JLabel("Bitte Usernamen wählen.");
-        warningLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+        warningLabel2.setFont(new Font("Ubuntu", Font.BOLD, 12));
+
       //  warningLabel2 = new JLabel("Testo");
     }
 
@@ -145,19 +150,27 @@ public class SetupView {
 
     private void warn(){
         if (userTextField1.getText().isEmpty()){
-            warningLabel1.setText(userTextField1.getText());
+            try {
+                validator.validate(userTextField1.getText().toString());
+            } catch (IllegalArgumentException e) {
+                warningLabel1.setText("Bitte Namen eingeben.");
+            } catch (IllegalStateException e) {
+                warningLabel1.setText("Bitte Namen eingeben.");
+            }
 
         }
-        if (userTextField1.getText().length() < 2) {
-            String toolTipText = userTextField1.getToolTipText();
-            warningLabel1.setText(toolTipText);
-            System.out.println("text zu kurz");
-
-
+        if (userTextField1.getText().length() < MIN_NAME_LENGHT && userTextField1.getText().length() > 0) {
+            try {
+                validator.validate(userTextField1.getText().toString());
+            } catch (IllegalArgumentException e) {
+                warningLabel1.setText("Bitte längeren Namen wählen.");
+            } catch (IllegalStateException e) {
+                warningLabel1.setText("Bitte Name eingeben");
+            }
 
         }
-        if (userTextField1.getText().length() > 10) {
-            JOptionPane.showMessageDialog(null, "Bitte weniger als 10 Zeichen eingeben",
+        if (userTextField1.getText().length() > MAX_NAME_LENGHT) {
+            JOptionPane.showMessageDialog(null, "Bitte weniger als " + MAX_NAME_LENGHT + " Zeichen eingeben",
                     "Error Message", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -182,8 +195,17 @@ public class SetupView {
                    // .addComponent(setUpLabel)
                     .addComponent(userTextField2)
                     .addComponent(startGameButton)
-                    .addComponent(warningLabel1)
-                    .addComponent(warningLabel2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                            .addComponent(warningLabel1)
+                        )
+                    )
+                    .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                    .addComponent(warningLabel2)
+                            )
+                    )
+
             )
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(confirmButton1)
@@ -200,15 +222,21 @@ public class SetupView {
                         .addComponent(userTextField1)
                         .addComponent(confirmButton1)
                 )
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(warningLabel1)
+                    )
                 )
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(player2)
                         .addComponent(userTextField2)
                         .addComponent(confirmButton2)
                 )
-                .addComponent(warningLabel2)
+                .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(warningLabel2)
+                        )
+                )
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(startGameButton)
                 )
@@ -216,10 +244,7 @@ public class SetupView {
     }
 
     private void linkSizeElements() {
-        layout.linkSize(SwingConstants.HORIZONTAL, player1, userTextField1, confirmButton1);
-        layout.linkSize(SwingConstants.VERTICAL, player1, userTextField1, confirmButton1);
-        layout.linkSize(SwingConstants.HORIZONTAL, userTextField2, confirmButton2);
-        layout.linkSize(SwingConstants.VERTICAL, player2, userTextField2, confirmButton2);
-        layout.linkSize(SwingConstants.HORIZONTAL, userTextField2, userTextField1, startGameButton);
+        layout.linkSize(SwingConstants.VERTICAL, player1, player2, userTextField2, userTextField1, confirmButton1, confirmButton2);
+        layout.linkSize(SwingConstants.HORIZONTAL, userTextField1, userTextField2, startGameButton, warningLabel1, warningLabel2);
     }
 }
