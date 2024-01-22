@@ -1,6 +1,4 @@
 package com.tictactoe.views;
-
-
 import com.tictactoe.game.grid.GameLogic;
 import com.tictactoe.game.user.User;
 import lombok.Getter;
@@ -12,9 +10,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 
 public class GameView {
 
