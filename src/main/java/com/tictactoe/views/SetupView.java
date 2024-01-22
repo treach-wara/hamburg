@@ -2,6 +2,7 @@ package com.tictactoe.views;
 
 import com.tictactoe.game.grid.Symbol;
 import com.tictactoe.game.listeners.StartButtonListener;
+import com.tictactoe.game.listeners.UserTextFieldListener;
 import com.tictactoe.game.user.User;
 import com.tictactoe.game.validations.JTextFieldValidator;
 import com.tictactoe.windows.MainWindow;
@@ -94,67 +95,9 @@ public class SetupView {
 
     private void createTextFields() {
         userTextField1 = new JTextField();
+        userTextField1.getDocument().addDocumentListener(new UserTextFieldListener(userTextField1, warningLabel1));
         userTextField2 = new JTextField();
-
-        setWarningMessageWithListener(userTextField1);
-        setWarningMessageWithListener(userTextField2);
-    }
-
-    private void setWarningMessageWithListener(JTextField textField) {
-        if (textField.getText().isBlank()) {
-            textField.setToolTipText("Bitte Usernamen wählen. Maximal 10 Zeichen");
-        }
-        textField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateWarningLabel(textField);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateWarningLabel(textField);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateWarningLabel(textField);
-            }
-        });
-    }
-
-    private void updateWarningLabel(JTextField textField) {
-        if (textField.getText().isEmpty()) {
-            try {
-                validator.validate(textField.getText());
-            } catch (IllegalArgumentException | IllegalStateException e) {
-                warningLabel1.setText("Bitte Usernamen eingeben.");
-                warningLabel2.setText("Bitte Usernamen eingeben.");
-            }
-        }
-        setSetUpLabelTextField(textField, userTextField1, warningLabel1);
-        setSetUpLabelTextField(textField, userTextField2, warningLabel2);
-    }
-
-    private void setSetUpLabelTextField(JTextField textField, JTextField userTextField1, JLabel warningLabel1) {
-        if (textField == userTextField1) {
-            if (textField.getText().length() < MIN_NAME_LENGTH && textField.getText().length() > 0) {
-                try {
-                    validator.validate(userTextField1.getText());
-                } catch (IllegalArgumentException e) {
-                    warningLabel1.setText("Bitte längeren Namen wählen.");
-                } catch (IllegalStateException e) {
-                    warningLabel1.setText("Bitte Username eingeben");
-                }
-
-            }
-            if (textField.getText().length() > MAX_NAME_LENGTH) {
-                JOptionPane.showMessageDialog(null, "Bitte maximal " + MAX_NAME_LENGTH + " Zeichen eingeben",
-                        "Error Message", JOptionPane.ERROR_MESSAGE);
-            }
-            if (textField.getText().length() > 2 && textField.getText().length() < MAX_NAME_LENGTH) {
-                warningLabel1.setText(" ");
-            }
-        }
+        userTextField2.getDocument().addDocumentListener(new UserTextFieldListener(userTextField2, warningLabel2));
     }
 
     private void createGroupLayout() {
