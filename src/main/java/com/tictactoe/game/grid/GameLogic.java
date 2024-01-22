@@ -15,6 +15,7 @@ public class GameLogic {
         this.buttons = buttons;
         this.user1 = user1;
         this.user2 = user2;
+        setStartingUser();
     }
 
     public void setStartingUser() {
@@ -26,7 +27,6 @@ public class GameLogic {
     }
 
     public void start(JButton button) {
-        setStartingUser();
         setSymbol(button);
         swapTurn();
         determineWinner();
