@@ -1,5 +1,7 @@
 package com.tictactoe.views;
 
+import com.tictactoe.game.grid.Symbol;
+import com.tictactoe.game.listeners.StartButtonListener;
 import com.tictactoe.game.user.User;
 import com.tictactoe.game.validations.JTextFieldValidator;
 import com.tictactoe.windows.MainWindow;
@@ -74,7 +76,7 @@ public class SetupView {
         confirmButton1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                user1 = new User(userTextField1.getText());
+                user1 = new User(userTextField1.getText(), Symbol.X);
                 startGameButton();
             }
         });
@@ -82,17 +84,12 @@ public class SetupView {
         confirmButton2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                user2 = new User(userTextField2.getText());
+                user2 = new User(userTextField2.getText(), Symbol.O);
                 startGameButton();
             }
         });
 
-        startGameButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                mainWindow.changeToGamePanel();
-            }
-        });
+        startGameButton.addActionListener(new StartButtonListener(mainWindow, this));
     }
 
     private void createTextFields() {

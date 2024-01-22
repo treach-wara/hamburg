@@ -27,14 +27,8 @@ public class GameView {
     private final JButton[][] buttons = new JButton[ROW][COLUMN];
     private final GameLogic gameLogic;
 
-    private final User user1;
-    private final User user2;
-
-
     public GameView(User user1, User user2) {
         create();
-        this.user1 = user1;
-        this.user2 = user2;
         gameLogic = new GameLogic(buttons, user1, user2);
     }
 

@@ -19,7 +19,7 @@ public class MainWindow {
 
     public MainWindow() {
         setupView = new SetupView(this);
-        setupPanel = setupView.getPanel();
+        setupPanel = setupView.getContentPanel();
     }
 
     public void initialize() {

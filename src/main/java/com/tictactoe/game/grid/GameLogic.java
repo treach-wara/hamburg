@@ -2,7 +2,7 @@ package com.tictactoe.game.grid;
 
 import com.tictactoe.game.user.User;
 
-import javax.swing.JButton;
+import javax.swing.*;
 import java.util.Random;
 
 public class GameLogic {
@@ -28,12 +28,13 @@ public class GameLogic {
 
     public void start(JButton button) {
         setSymbol(button);
-        swapTurn();
         determineWinner();
+        swapTurn();
     }
 
     /**
      * Calculates the winner of a finished tictactoe game
+     *
      * @return Symbol.U if no one won, otherwise Symbol.X / Symbol.O
      */
     public Symbol calculateWinner() {
@@ -45,13 +46,10 @@ public class GameLogic {
             return rowWinner;
         }
         if (columnWinner != Symbol.U) {
-            return rowWinner;
+            return columnWinner;
         }
 
-        if (diagonalWinner != Symbol.U) {
-            return rowWinner;
-        }
-        return Symbol.U;
+        return diagonalWinner;
     }
 
     private Symbol calculateRows() {
@@ -96,7 +94,7 @@ public class GameLogic {
     }
 
     private void setSymbol(JButton button) {
-        if(user1.isNext()) {
+        if (user1.isNext()) {
             button.setText(user1.getSymbol().name());
         } else {
             button.setText(user2.getSymbol().name());
@@ -119,6 +117,16 @@ public class GameLogic {
                 buttons[1][1].getText().equals("X") &&
                 buttons[2][0].getText().equals("X")) {
             return Symbol.X;
+        }
+        if (buttons[0][0].getText().equals("O") &&
+                buttons[1][1].getText().equals("O") &&
+                buttons[2][2].getText().equals("O")) {
+            return Symbol.O;
+        }
+        if (buttons[0][2].getText().equals("O") &&
+                buttons[1][1].getText().equals("O") &&
+                buttons[2][0].getText().equals("O")) {
+            return Symbol.O;
         }
         if (buttons[0][0].getText().equals("X") &&
                 buttons[1][1].getText().equals("X") &&

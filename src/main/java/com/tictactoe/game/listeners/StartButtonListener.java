@@ -5,10 +5,12 @@ import com.tictactoe.views.SetupView;
 import com.tictactoe.views.WindowUtility;
 import com.tictactoe.windows.MainWindow;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class StartButtonListener extends MouseAdapter {
+public class StartButtonListener implements ActionListener {
 
     private final MainWindow mainWindow;
     private final SetupView setupView;
@@ -22,14 +24,14 @@ public class StartButtonListener extends MouseAdapter {
     }
 
     public void changeToGamePanel() {
-        setupView.getPanel().setVisible(false);
+        setupView.getContentPanel().setVisible(false);
         mainWindow.getWindow().getContentPane().add(gameView.getPanel());
         utility.setAndCenterPanel(gameView.getPanel());
         gameView.getPanel().setVisible(true);
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void actionPerformed(ActionEvent e) {
         gameView = new GameView(setupView.getUser1(), setupView.getUser2());
         changeToGamePanel();
     }
