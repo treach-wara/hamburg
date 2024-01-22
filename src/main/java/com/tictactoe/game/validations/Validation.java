@@ -1,10 +1,7 @@
 package com.tictactoe.game.validations;
 
-import javax.naming.LimitExceededException;
-
 public class Validation {
 
-    // Methods for validation
     public static void isNotNull(String input) throws IllegalStateException{
         if(input.isBlank()){
             throw new IllegalStateException("Bitte setze einen Username.");

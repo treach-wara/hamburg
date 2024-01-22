@@ -30,7 +30,6 @@ public class MainWindow {
     private void setAndCenterPanel(JPanel panelType) {
         window.getContentPane().add(panelType);
         window.pack();
-        System.out.println("windows packed");
         window.setLocationRelativeTo(null);
     }
 }

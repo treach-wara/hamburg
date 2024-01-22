@@ -8,7 +8,6 @@ import lombok.Getter;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -19,44 +18,30 @@ public class SetupView {
     private final JPanel contentPanel = new JPanel();
     private final MainWindow mainWindow;
     private final JTextFieldValidator validator = new JTextFieldValidator();
-
     private GroupLayout layout;
-
     private JButton confirmButton1;
     private JButton confirmButton2;
     private JButton startGameButton;
-
     private JTextField userTextField1;
     private JTextField userTextField2;
-
-    private JLabel header;
     private JLabel player1;
     private JLabel player2;
     private JLabel setUpLabel;
     private JLabel warningLabel1;
     private JLabel warningLabel2;
-
-    private User  user1;
+    private User user1;
     private User user2;
 
-    private static final int MAX_NAME_LENGHT = 12;
-    private static final int MIN_NAME_LENGHT = 2;
-
+    private static final int MAX_NAME_LENGTH = 12;
+    private static final int MIN_NAME_LENGTH = 2;
 
     public SetupView(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
-
-        setHeading();
         createLabels();
         createButtons();
         createTextFields();
         createGroupLayout();
         contentPanel.setLayout(layout);
-    }
-
-    private void setHeading() {
-        header = new JLabel("Set up your configuration", SwingConstants.CENTER);
-        header.setFont(new Font("Monospace", Font.BOLD, 40));
     }
 
     private void createLabels() {
@@ -71,12 +56,10 @@ public class SetupView {
 
         warningLabel2 = new JLabel("Bitte Usernamen wählen.");
         warningLabel2.setFont(new Font("Ubuntu", Font.BOLD, 12));
-
-      //  warningLabel2 = new JLabel("Testo");
     }
 
     private void startGameButton() {
-        if (user1 != null & user2 != null){
+        if (user1 != null & user2 != null) {
             startGameButton.setEnabled(true);
         }
     }
@@ -92,7 +75,6 @@ public class SetupView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 user1 = new User(userTextField1.getText());
-                System.out.println(user1.getName());
                 startGameButton();
             }
         });
@@ -101,7 +83,6 @@ public class SetupView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 user2 = new User(userTextField2.getText());
-                System.out.println(user2.getName());
                 startGameButton();
             }
         });
@@ -109,10 +90,8 @@ public class SetupView {
         startGameButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(user1.getName() + " spielt gegen " + user2.getName());
                 mainWindow.changeToGamePanel();
             }
-
         });
     }
 
@@ -131,27 +110,25 @@ public class SetupView {
         textField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                warn(textField);
+                updateWarningLabel(textField);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                warn(textField);
-
+                updateWarningLabel(textField);
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                warn(textField);
-
+                updateWarningLabel(textField);
             }
         });
     }
 
-    private void warn(JTextField textField){
-        if (textField.getText().isEmpty()){
+    private void updateWarningLabel(JTextField textField) {
+        if (textField.getText().isEmpty()) {
             try {
-                validator.validate(textField.getText().toString());
+                validator.validate(textField.getText());
             } catch (IllegalArgumentException | IllegalStateException e) {
                 warningLabel1.setText("Bitte Usernamen eingeben.");
                 warningLabel2.setText("Bitte Usernamen eingeben.");
@@ -162,10 +139,10 @@ public class SetupView {
     }
 
     private void setSetUpLabelTextField(JTextField textField, JTextField userTextField1, JLabel warningLabel1) {
-        if (textField == userTextField1){
-            if (textField.getText().length() < MIN_NAME_LENGHT && textField.getText().length() > 0) {
+        if (textField == userTextField1) {
+            if (textField.getText().length() < MIN_NAME_LENGTH && textField.getText().length() > 0) {
                 try {
-                    validator.validate(userTextField1.getText().toString());
+                    validator.validate(userTextField1.getText());
                 } catch (IllegalArgumentException e) {
                     warningLabel1.setText("Bitte längeren Namen wählen.");
                 } catch (IllegalStateException e) {
@@ -173,14 +150,13 @@ public class SetupView {
                 }
 
             }
-            if (textField.getText().length() > MAX_NAME_LENGHT) {
-                JOptionPane.showMessageDialog(null, "Bitte maximal " + MAX_NAME_LENGHT + " Zeichen eingeben",
+            if (textField.getText().length() > MAX_NAME_LENGTH) {
+                JOptionPane.showMessageDialog(null, "Bitte maximal " + MAX_NAME_LENGTH + " Zeichen eingeben",
                         "Error Message", JOptionPane.ERROR_MESSAGE);
             }
-            if (textField.getText().length() > 2 && textField.getText().length() < MAX_NAME_LENGHT) {
+            if (textField.getText().length() > 2 && textField.getText().length() < MAX_NAME_LENGTH) {
                 warningLabel1.setText(" ");
             }
-
         }
     }
 
@@ -190,40 +166,39 @@ public class SetupView {
         layout.setAutoCreateContainerGaps(true);
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addComponent(setUpLabel)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                            .addComponent(player1)
-                            .addComponent(player2)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(setUpLabel)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(player1)
+                                        .addComponent(player2)
 
-                        )
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(userTextField1)
-                   // .addComponent(setUpLabel)
-                    .addComponent(userTextField2)
-                    .addComponent(startGameButton)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                            .addComponent(warningLabel1)
-                        )
-                    )
-                    .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                    .addComponent(warningLabel2)
-                            )
-                    )
+                                )
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(userTextField1)
+                                        .addComponent(userTextField2)
+                                        .addComponent(startGameButton)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                        .addComponent(warningLabel1)
+                                                )
+                                        )
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                        .addComponent(warningLabel2)
+                                                )
+                                        )
 
-            )
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(confirmButton1)
-                    .addComponent(confirmButton2)
-            )))
+                                )
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(confirmButton1)
+                                        .addComponent(confirmButton2)
+                                )))
         );
         linkSizeElements();
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(setUpLabel)
+                        .addComponent(setUpLabel)
                 )
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(player1)
@@ -231,9 +206,9 @@ public class SetupView {
                         .addComponent(confirmButton1)
                 )
                 .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(warningLabel1)
-                    )
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(warningLabel1)
+                        )
                 )
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(player2)
@@ -252,7 +227,7 @@ public class SetupView {
     }
 
     private void linkSizeElements() {
-        layout.linkSize(SwingConstants.VERTICAL, player1, player2, userTextField2, userTextField1, confirmButton1, confirmButton2);
+        layout.linkSize(SwingConstants.VERTICAL, player1, player2, userTextField1, userTextField2, confirmButton1, confirmButton2);
         layout.linkSize(SwingConstants.HORIZONTAL, userTextField1, userTextField2, startGameButton, warningLabel1, warningLabel2);
     }
 }
