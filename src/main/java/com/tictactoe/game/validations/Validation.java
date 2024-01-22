@@ -4,10 +4,6 @@ import javax.naming.LimitExceededException;
 
 public class Validation {
 
-    public Validation(){
-
-    }
-
     // Methods for validation
     public static void isNotNull(String input) throws IllegalStateException{
         if(input.isBlank()){

@@ -64,7 +64,7 @@ public class SetupView {
         player2 = new JLabel("Player 2");
         setUpLabel = new JLabel();
         setUpLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        setUpLabel.setText("Bitte Charakternamen eingeben, maximal 10 Zeichen");
+        setUpLabel.setText("Bitte Charakternamen eingeben, maximal 12 Zeichen");
 
         warningLabel1 = new JLabel("Bitte Usernamen wählen.");
         warningLabel1.setFont(new Font("Ubuntu", Font.BOLD, 12));
@@ -120,60 +120,68 @@ public class SetupView {
         userTextField1 = new JTextField();
         userTextField2 = new JTextField();
 
-        setTextMessage(userTextField1);
-        setTextMessage(userTextField2);
+        setWarningMessageWithListener(userTextField1);
+        setWarningMessageWithListener(userTextField2);
     }
 
-    private void setTextMessage (JTextField textField) {
-        if (userTextField1.getText().isBlank()) {
-            userTextField1.setToolTipText("Bitte Usernamen wählen. Maximal 10 Zeichen");
+    private void setWarningMessageWithListener(JTextField textField) {
+        if (textField.getText().isBlank()) {
+            textField.setToolTipText("Bitte Usernamen wählen. Maximal 10 Zeichen");
         }
         textField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                warn();
+                warn(textField);
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                warn();
+                warn(textField);
 
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                warn();
+                warn(textField);
 
             }
         });
     }
 
-    private void warn(){
-        if (userTextField1.getText().isEmpty()){
+    private void warn(JTextField textField){
+        if (textField.getText().isEmpty()){
             try {
-                validator.validate(userTextField1.getText().toString());
-            } catch (IllegalArgumentException e) {
-                warningLabel1.setText("Bitte Namen eingeben.");
-            } catch (IllegalStateException e) {
-                warningLabel1.setText("Bitte Namen eingeben.");
+                validator.validate(textField.getText().toString());
+            } catch (IllegalArgumentException | IllegalStateException e) {
+                warningLabel1.setText("Bitte Usernamen eingeben.");
+                warningLabel2.setText("Bitte Usernamen eingeben.");
+            }
+        }
+        setSetUpLabelTextField(textField, userTextField1, warningLabel1);
+        setSetUpLabelTextField(textField, userTextField2, warningLabel2);
+    }
+
+    private void setSetUpLabelTextField(JTextField textField, JTextField userTextField1, JLabel warningLabel1) {
+        if (textField == userTextField1){
+            if (textField.getText().length() < MIN_NAME_LENGHT && textField.getText().length() > 0) {
+                try {
+                    validator.validate(userTextField1.getText().toString());
+                } catch (IllegalArgumentException e) {
+                    warningLabel1.setText("Bitte längeren Namen wählen.");
+                } catch (IllegalStateException e) {
+                    warningLabel1.setText("Bitte Username eingeben");
+                }
+
+            }
+            if (textField.getText().length() > MAX_NAME_LENGHT) {
+                JOptionPane.showMessageDialog(null, "Bitte maximal " + MAX_NAME_LENGHT + " Zeichen eingeben",
+                        "Error Message", JOptionPane.ERROR_MESSAGE);
+            }
+            if (textField.getText().length() > 2 && textField.getText().length() < MAX_NAME_LENGHT) {
+                warningLabel1.setText(" ");
             }
 
         }
-        if (userTextField1.getText().length() < MIN_NAME_LENGHT && userTextField1.getText().length() > 0) {
-            try {
-                validator.validate(userTextField1.getText().toString());
-            } catch (IllegalArgumentException e) {
-                warningLabel1.setText("Bitte längeren Namen wählen.");
-            } catch (IllegalStateException e) {
-                warningLabel1.setText("Bitte Name eingeben");
-            }
-
-        }
-        if (userTextField1.getText().length() > MAX_NAME_LENGHT) {
-            JOptionPane.showMessageDialog(null, "Bitte weniger als " + MAX_NAME_LENGHT + " Zeichen eingeben",
-                    "Error Message", JOptionPane.ERROR_MESSAGE);
-        }
-
     }
 
     private void createGroupLayout() {
