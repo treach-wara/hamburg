@@ -68,28 +68,9 @@ public class SetupView {
     }
 
     private void createButtons() {
-        confirmButton1 = new JButton("confirm");
-        confirmButton2 = new JButton("confirm");
         startGameButton = new JButton("Start Game");
         startGameButton.setEnabled(false);
         startGameButton.setHorizontalAlignment(SwingConstants.CENTER);
-
-        confirmButton1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                user1 = new User(userTextField1.getText(), Symbol.X);
-                startGameButton();
-            }
-        });
-
-        confirmButton2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                user2 = new User(userTextField2.getText(), Symbol.O);
-                startGameButton();
-            }
-        });
-
         startGameButton.addActionListener(new StartButtonListener(mainWindow, this));
     }
 
@@ -130,10 +111,8 @@ public class SetupView {
                                         )
 
                                 )
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(confirmButton1)
-                                        .addComponent(confirmButton2)
-                                )))
+                        )
+                )
         );
         linkSizeElements();
         layout.setVerticalGroup(layout.createSequentialGroup()
@@ -143,7 +122,6 @@ public class SetupView {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(player1)
                         .addComponent(userTextField1)
-                        .addComponent(confirmButton1)
                 )
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -153,7 +131,6 @@ public class SetupView {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(player2)
                         .addComponent(userTextField2)
-                        .addComponent(confirmButton2)
                 )
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -167,7 +144,7 @@ public class SetupView {
     }
 
     private void linkSizeElements() {
-        layout.linkSize(SwingConstants.VERTICAL, player1, player2, userTextField1, userTextField2, confirmButton1, confirmButton2);
-        layout.linkSize(SwingConstants.HORIZONTAL, userTextField1, userTextField2, startGameButton, warningLabel1, warningLabel2);
+        layout.linkSize(SwingConstants.VERTICAL, player1, player2, userTextField1, userTextField2);
+        layout.linkSize(SwingConstants.HORIZONTAL, player1, player2, userTextField1, userTextField2, startGameButton, warningLabel1, warningLabel2);
     }
 }
