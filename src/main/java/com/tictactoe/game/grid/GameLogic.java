@@ -1,6 +1,8 @@
 package com.tictactoe.game.grid;
 
+import com.tictactoe.game.exceptions.NoWinnerException;
 import com.tictactoe.game.user.User;
+import lombok.Getter;
 
 import javax.swing.*;
 import java.util.Random;
@@ -10,6 +12,12 @@ public class GameLogic {
     private final JButton[][] buttons;
     private final User user1;
     private final User user2;
+
+    @Getter
+    private int round = 0;
+
+    @Getter
+    private Symbol winner = Symbol.U;
 
     public GameLogic(JButton[][] buttons, User user1, User user2) {
         this.buttons = buttons;
@@ -26,43 +34,41 @@ public class GameLogic {
         }
     }
 
-    public void start(JButton button) {
-        setSymbol(button);
-        determineWinner();
-        swapTurn();
+    public void determineWinner() {
+        if (this.round >= 5) {
+            try {
+                winner = calculateWinner();
+            } catch (NoWinnerException e) {
+                nextRound();
+            }
+        }
     }
 
-    /**
-     * Calculates the winner of a finished tictactoe game
-     *
-     * @return Symbol.U if no one won, otherwise Symbol.X / Symbol.O
-     */
-    public Symbol calculateWinner() {
-        Symbol rowWinner = calculateRows();
-        Symbol columnWinner = calculateColumns();
-        Symbol diagonalWinner = calculateDiagonals();
+    public void nextRound() {
+        swap();
+        round++;
+    }
 
-        if (rowWinner != Symbol.U) {
-            return rowWinner;
+    public Symbol calculateWinner() throws NoWinnerException {
+        Symbol rowSymbol = calculateRows();
+        Symbol columnSymbol = calculateColumns();
+        Symbol diagonalSymbol = calculateDiagonals();
+        if (rowSymbol != Symbol.U) {
+            return rowSymbol;
+        } else if (columnSymbol != Symbol.U) {
+            return columnSymbol;
+        } else if (diagonalSymbol != Symbol.U) {
+            return diagonalSymbol;
+        } else {
+            throw new NoWinnerException();
         }
-        if (columnWinner != Symbol.U) {
-            return columnWinner;
-        }
-
-        return diagonalWinner;
     }
 
     private Symbol calculateRows() {
         for (int row = 0; row < 3; row++) {
-            if (buttons[row][0].getText().equals("X") &&
-                    buttons[row][1].getText().equals("X") &&
-                    buttons[row][2].getText().equals("X")) {
-                return Symbol.X;
-            }
-            if (buttons[row][0].getText().equals("O") &&
-                    buttons[row][1].getText().equals("O") &&
-                    buttons[row][2].getText().equals("O")) {
-                return Symbol.O;
+            if (buttons[row][0].getText().equals(buttons[row][1].getText()) &&
+                    buttons[row][1].getText().equals(buttons[row][2].getText())) {
+                return Symbol.getFromButtonText(buttons[row][0]);
             }
         }
         return Symbol.U;
@@ -70,30 +76,29 @@ public class GameLogic {
 
     private Symbol calculateColumns() {
         for (int column = 0; column < 3; column++) {
-            if (buttons[0][column].getText().equals("X") &&
-                    buttons[1][column].getText().equals("X") &&
-                    buttons[2][column].getText().equals("X")) {
-                return Symbol.X;
-            }
-            if (buttons[0][column].getText().equals("O") &&
-                    buttons[1][column].getText().equals("O") &&
-                    buttons[2][column].getText().equals("O")) {
-                return Symbol.O;
+            if (buttons[0][column].getText().equals(buttons[1][column].getText()) &&
+                    buttons[1][column].getText().equals(buttons[2][column].getText())) {
+                return Symbol.getFromButtonText(buttons[0][column]);
             }
         }
         return Symbol.U;
     }
 
-    private void determineWinner() {
-        Symbol winner = calculateWinner();
-        switch (winner) {
-            case X -> System.out.println("X hat gewonnen!");
-            case O -> System.out.println("O hat gewonnen!");
-            case U -> System.out.println("Niemand hat gewonnen");
+    private Symbol calculateDiagonals() {
+        if (buttons[0][2].getText().equals("X") &&
+                buttons[1][1].getText().equals("X") &&
+                buttons[2][0].getText().equals("X")) {
+            return Symbol.getFromButtonText(buttons[0][2]);
         }
+        if (buttons[0][0].getText().equals(buttons[1][1].getText()) &&
+                buttons[1][1].getText().equals(buttons[2][2].getText())) {
+
+            return Symbol.getFromButtonText(buttons[0][0]);
+        }
+        return Symbol.U;
     }
 
-    private void setSymbol(JButton button) {
+    public void setButtonSymbol(JButton button) {
         if (user1.isNext()) {
             button.setText(user1.getSymbol().name());
         } else {
@@ -102,38 +107,8 @@ public class GameLogic {
         button.setEnabled(false);
     }
 
-    private void swapTurn() {
-        if (user1.isNext()) {
-            user1.setNext(false);
-            user2.setNext(true);
-        } else {
-            user1.setNext(true);
-            user2.setNext(false);
-        }
+    private void swap() {
+        user1.swap();
+        user2.swap();
     }
-
-    private Symbol calculateDiagonals() {
-        if (buttons[0][2].getText().equals("X") &&
-                buttons[1][1].getText().equals("X") &&
-                buttons[2][0].getText().equals("X")) {
-            return Symbol.X;
-        }
-        if (buttons[0][0].getText().equals("O") &&
-                buttons[1][1].getText().equals("O") &&
-                buttons[2][2].getText().equals("O")) {
-            return Symbol.O;
-        }
-        if (buttons[0][2].getText().equals("O") &&
-                buttons[1][1].getText().equals("O") &&
-                buttons[2][0].getText().equals("O")) {
-            return Symbol.O;
-        }
-        if (buttons[0][0].getText().equals("X") &&
-                buttons[1][1].getText().equals("X") &&
-                buttons[2][2].getText().equals("X")) {
-            return Symbol.X;
-        }
-        return Symbol.U;
-    }
-
 }

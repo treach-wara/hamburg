@@ -1,5 +1,6 @@
 package com.tictactoe.views;
 import com.tictactoe.game.grid.GameLogic;
+import com.tictactoe.game.grid.Symbol;
 import com.tictactoe.game.user.User;
 import lombok.Getter;
 
@@ -63,6 +64,9 @@ public class GameView {
     }
 
     private void setButtonListener(JButton button) {
-        button.addActionListener(event -> gameLogic.start(button));
+        button.addActionListener(event -> {
+            gameLogic.setButtonSymbol(button);
+            gameLogic.determineWinner();
+        });
     }
 }
