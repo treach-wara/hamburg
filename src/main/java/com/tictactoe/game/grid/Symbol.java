@@ -9,13 +9,10 @@ public enum Symbol {
     U;
 
     public static Symbol getFromButtonText(JButton button) {
-        switch(button.getText()) {
-            case "X":
-                return X;
-            case "O":
-                return O;
-            default:
-                return U;
-        }
+        return switch (button.getText()) {
+            case "X" -> X;
+            case "O" -> O;
+            default -> U;
+        };
     }
 }

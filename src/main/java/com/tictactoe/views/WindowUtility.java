@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class WindowUtility {
 
-    JFrame window;
+    private final JFrame window;
 
     public WindowUtility(JFrame window) {
         this.window = window;

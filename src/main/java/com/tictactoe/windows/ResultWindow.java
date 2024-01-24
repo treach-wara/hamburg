@@ -14,6 +14,7 @@ public class ResultWindow {
     private final WindowUtility utility = new WindowUtility(window);
 
     public ResultWindow(Symbol result) {
+        this.window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.result = result;
         this.setText();
         this.window.getContentPane().add(label);

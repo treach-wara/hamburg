@@ -3,7 +3,6 @@ package com.tictactoe.game.grid;
 import com.tictactoe.game.exceptions.NoWinnerException;
 import com.tictactoe.game.user.User;
 import com.tictactoe.windows.ResultWindow;
-import lombok.Getter;
 
 import javax.swing.*;
 import java.util.Random;
@@ -13,12 +12,7 @@ public class GameLogic {
     private final JButton[][] buttons;
     private final User user1;
     private final User user2;
-
-    @Getter
-    private int round = 0;
-
-    @Getter
-    private Symbol winner = Symbol.U;
+    private int round = 1;
 
     public GameLogic(JButton[][] buttons, User user1, User user2) {
         this.buttons = buttons;
@@ -36,22 +30,20 @@ public class GameLogic {
     }
 
     public void determineWinner() {
-        if (this.round >= 5) {
-            try {
-                this.winner = calculateWinner();
+        if (this.round >= 4) {
+            Symbol winner = calculateWinner();
+            if(winner != Symbol.U) {
                 new ResultWindow(winner);
-            } catch (NoWinnerException e) {
-                nextRound();
+            }
+            if(round == 9) {
+                new ResultWindow(winner);
             }
         }
-    }
-
-    public void nextRound() {
-        swap();
         round++;
+        swap();
     }
 
-    public Symbol calculateWinner() throws NoWinnerException {
+    public Symbol calculateWinner() {
         Symbol rowSymbol = calculateRows();
         Symbol columnSymbol = calculateColumns();
         Symbol diagonalSymbol = calculateDiagonals();
@@ -59,11 +51,7 @@ public class GameLogic {
             return rowSymbol;
         } else if (columnSymbol != Symbol.U) {
             return columnSymbol;
-        } else if (diagonalSymbol != Symbol.U) {
-            return diagonalSymbol;
-        } else {
-            throw new NoWinnerException();
-        }
+        } else return diagonalSymbol;
     }
 
     private Symbol calculateRows() {
@@ -87,9 +75,8 @@ public class GameLogic {
     }
 
     private Symbol calculateDiagonals() {
-        if (buttons[0][2].getText().equals("X") &&
-                buttons[1][1].getText().equals("X") &&
-                buttons[2][0].getText().equals("X")) {
+        if (buttons[0][2].getText().equals(buttons[1][1].getText()) &&
+                buttons[1][1].getText().equals(buttons[2][0].getText())) {
             return Symbol.getFromButtonText(buttons[0][2]);
         }
         if (buttons[0][0].getText().equals(buttons[1][1].getText()) &&

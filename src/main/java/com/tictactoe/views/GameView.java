@@ -1,6 +1,6 @@
 package com.tictactoe.views;
+
 import com.tictactoe.game.grid.GameLogic;
-import com.tictactoe.game.grid.Symbol;
 import com.tictactoe.game.user.User;
 import lombok.Getter;
 
@@ -23,8 +23,6 @@ public class GameView {
 
     @Getter
     private final JPanel panel = new JPanel(new GridLayout(ROW, COLUMN));
-    // todo: we don't actually need this, we can just get the child elements from the grid panel
-    @Getter
     private final JButton[][] buttons = new JButton[ROW][COLUMN];
     private final GameLogic gameLogic;
 

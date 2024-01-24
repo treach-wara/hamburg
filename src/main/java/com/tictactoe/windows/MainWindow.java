@@ -10,15 +10,14 @@ import javax.swing.WindowConstants;
 
 public class MainWindow {
 
-    private final SetupView setupView;
     private final JPanel setupPanel;
 
     @Getter
-    private JFrame window = new JFrame("Tic Tac Toe");
+    private final JFrame window = new JFrame("Tic Tac Toe");
     private final WindowUtility utility = new WindowUtility(window);
 
     public MainWindow() {
-        setupView = new SetupView(this);
+        SetupView setupView = new SetupView(this);
         setupPanel = setupView.getContentPanel();
     }
 
