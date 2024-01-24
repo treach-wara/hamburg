@@ -17,10 +17,6 @@ public class User {
         this.symbol = symbol;
     }
 
-    public String getSymbolName() {
-        return this.symbol.name();
-    }
-
     public void swap() {
         next = !next;
     }
