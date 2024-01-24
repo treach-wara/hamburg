@@ -22,8 +22,6 @@ public class SetupView {
     private final MainWindow mainWindow;
     private final JTextFieldValidator validator = new JTextFieldValidator();
     private GroupLayout layout;
-    private JButton confirmButton1;
-    private JButton confirmButton2;
     private JButton startGameButton;
     private JTextField userTextField1;
     private JTextField userTextField2;

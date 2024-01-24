@@ -9,8 +9,5 @@ import java.awt.event.MouseEvent;
 
 public interface Validator<TYPE> {
 
-    public void validate(TYPE object) throws TooLongException, TooShortException;
-
-
-
+    public void validate(TYPE object);
 }
