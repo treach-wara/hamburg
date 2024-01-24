@@ -1,6 +1,6 @@
 package com.tictactoe.views;
 
-import com.tictactoe.game.grid.Symbol;
+import com.tictactoe.game.StartButtonHelper;
 import com.tictactoe.game.listeners.StartButtonListener;
 import com.tictactoe.game.listeners.UserTextFieldListener;
 import com.tictactoe.game.user.User;
@@ -9,11 +9,7 @@ import com.tictactoe.windows.MainWindow;
 import lombok.Getter;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 @Getter
 public class SetupView {
@@ -30,8 +26,10 @@ public class SetupView {
     private JLabel setUpLabel;
     private JLabel warningLabel1;
     private JLabel warningLabel2;
-    private User user1;
-    private User user2;
+    private UserTextFieldListener userTextFieldListener1;
+    private UserTextFieldListener userTextFieldListener2;
+    User user1;
+    User user2;
 
     private static final int MAX_NAME_LENGTH = 12;
     private static final int MIN_NAME_LENGTH = 2;
@@ -59,12 +57,6 @@ public class SetupView {
         warningLabel2.setFont(new Font("Ubuntu", Font.BOLD, 12));
     }
 
-    private void startGameButton() {
-        if (user1 != null & user2 != null) {
-            startGameButton.setEnabled(true);
-        }
-    }
-
     private void createButtons() {
         startGameButton = new JButton("Start Game");
         startGameButton.setEnabled(false);
@@ -74,9 +66,13 @@ public class SetupView {
 
     private void createTextFields() {
         userTextField1 = new JTextField();
-        userTextField1.getDocument().addDocumentListener(new UserTextFieldListener(userTextField1, warningLabel1));
         userTextField2 = new JTextField();
-        userTextField2.getDocument().addDocumentListener(new UserTextFieldListener(userTextField2, warningLabel2));
+        userTextFieldListener1 = new UserTextFieldListener(userTextField1, warningLabel1);
+        userTextFieldListener2 = new UserTextFieldListener(userTextField2, warningLabel2);
+        userTextField1.getDocument().addDocumentListener(userTextFieldListener1);
+        userTextField2.getDocument().addDocumentListener(userTextFieldListener2);
+        userTextFieldListener1.setStartButtonHelper(new StartButtonHelper(userTextFieldListener2, startGameButton));
+        userTextFieldListener2.setStartButtonHelper(new StartButtonHelper(userTextFieldListener1, startGameButton));
     }
 
     private void createGroupLayout() {
@@ -144,5 +140,15 @@ public class SetupView {
     private void linkSizeElements() {
         layout.linkSize(SwingConstants.VERTICAL, player1, player2, userTextField1, userTextField2);
         layout.linkSize(SwingConstants.HORIZONTAL, player1, player2, userTextField1, userTextField2, startGameButton, warningLabel1, warningLabel2);
+    }
+
+    public void tryEnableStartButton() {
+        if(userTextFieldListener1.isValid() && userTextFieldListener2.isValid()) {
+            startGameButton.setEnabled(true);
+        }
+    }
+
+    public void disableStartButton() {
+        startGameButton.setEnabled(false);
     }
 }

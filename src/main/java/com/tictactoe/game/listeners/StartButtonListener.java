@@ -1,5 +1,7 @@
 package com.tictactoe.game.listeners;
 
+import com.tictactoe.game.grid.Symbol;
+import com.tictactoe.game.user.User;
 import com.tictactoe.views.GameView;
 import com.tictactoe.views.SetupView;
 import com.tictactoe.views.WindowUtility;
@@ -32,7 +34,7 @@ public class StartButtonListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameView = new GameView(setupView.getUser1(), setupView.getUser2());
+        gameView = new GameView(new User("1", Symbol.X), new User("2", Symbol.O));
         changeToGamePanel();
     }
 }
