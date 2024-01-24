@@ -16,4 +16,8 @@ public class User {
         this.name = username;
         this.symbol = symbol;
     }
+
+    public String getSymbolName() {
+        return this.symbol.name();
+    }
 }

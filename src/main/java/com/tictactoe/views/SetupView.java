@@ -2,6 +2,7 @@ package com.tictactoe.views;
 
 import com.tictactoe.game.grid.Symbol;
 import com.tictactoe.game.listeners.StartButtonListener;
+import com.tictactoe.game.listeners.UserTextFieldListener;
 import com.tictactoe.game.user.User;
 import com.tictactoe.game.validations.JTextFieldValidator;
 import com.tictactoe.windows.MainWindow;
@@ -21,8 +22,6 @@ public class SetupView {
     private final MainWindow mainWindow;
     private final JTextFieldValidator validator = new JTextFieldValidator();
     private GroupLayout layout;
-    private JButton confirmButton1;
-    private JButton confirmButton2;
     private JButton startGameButton;
     private JTextField userTextField1;
     private JTextField userTextField2;
@@ -67,94 +66,17 @@ public class SetupView {
     }
 
     private void createButtons() {
-        confirmButton1 = new JButton("confirm");
-        confirmButton2 = new JButton("confirm");
         startGameButton = new JButton("Start Game");
         startGameButton.setEnabled(false);
         startGameButton.setHorizontalAlignment(SwingConstants.CENTER);
-
-        confirmButton1.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                user1 = new User(userTextField1.getText(), Symbol.X);
-                startGameButton();
-            }
-        });
-
-        confirmButton2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                user2 = new User(userTextField2.getText(), Symbol.O);
-                startGameButton();
-            }
-        });
-
         startGameButton.addActionListener(new StartButtonListener(mainWindow, this));
     }
 
     private void createTextFields() {
         userTextField1 = new JTextField();
+        userTextField1.getDocument().addDocumentListener(new UserTextFieldListener(userTextField1, warningLabel1));
         userTextField2 = new JTextField();
-
-        setWarningMessageWithListener(userTextField1);
-        setWarningMessageWithListener(userTextField2);
-    }
-
-    private void setWarningMessageWithListener(JTextField textField) {
-        if (textField.getText().isBlank()) {
-            textField.setToolTipText("Bitte Usernamen wählen. Maximal 10 Zeichen");
-        }
-        textField.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateWarningLabel(textField);
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateWarningLabel(textField);
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateWarningLabel(textField);
-            }
-        });
-    }
-
-    private void updateWarningLabel(JTextField textField) {
-        if (textField.getText().isEmpty()) {
-            try {
-                validator.validate(textField.getText());
-            } catch (IllegalArgumentException | IllegalStateException e) {
-                warningLabel1.setText("Bitte Usernamen eingeben.");
-                warningLabel2.setText("Bitte Usernamen eingeben.");
-            }
-        }
-        setSetUpLabelTextField(textField, userTextField1, warningLabel1);
-        setSetUpLabelTextField(textField, userTextField2, warningLabel2);
-    }
-
-    private void setSetUpLabelTextField(JTextField textField, JTextField userTextField1, JLabel warningLabel1) {
-        if (textField == userTextField1) {
-            if (textField.getText().length() < MIN_NAME_LENGTH && textField.getText().length() > 0) {
-                try {
-                    validator.validate(userTextField1.getText());
-                } catch (IllegalArgumentException e) {
-                    warningLabel1.setText("Bitte längeren Namen wählen.");
-                } catch (IllegalStateException e) {
-                    warningLabel1.setText("Bitte Username eingeben");
-                }
-
-            }
-            if (textField.getText().length() > MAX_NAME_LENGTH) {
-                JOptionPane.showMessageDialog(null, "Bitte maximal " + MAX_NAME_LENGTH + " Zeichen eingeben",
-                        "Error Message", JOptionPane.ERROR_MESSAGE);
-            }
-            if (textField.getText().length() > 2 && textField.getText().length() < MAX_NAME_LENGTH) {
-                warningLabel1.setText(" ");
-            }
-        }
+        userTextField2.getDocument().addDocumentListener(new UserTextFieldListener(userTextField2, warningLabel2));
     }
 
     private void createGroupLayout() {
@@ -187,10 +109,8 @@ public class SetupView {
                                         )
 
                                 )
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(confirmButton1)
-                                        .addComponent(confirmButton2)
-                                )))
+                        )
+                )
         );
         linkSizeElements();
         layout.setVerticalGroup(layout.createSequentialGroup()
@@ -200,7 +120,6 @@ public class SetupView {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(player1)
                         .addComponent(userTextField1)
-                        .addComponent(confirmButton1)
                 )
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -210,7 +129,6 @@ public class SetupView {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(player2)
                         .addComponent(userTextField2)
-                        .addComponent(confirmButton2)
                 )
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -224,7 +142,7 @@ public class SetupView {
     }
 
     private void linkSizeElements() {
-        layout.linkSize(SwingConstants.VERTICAL, player1, player2, userTextField1, userTextField2, confirmButton1, confirmButton2);
-        layout.linkSize(SwingConstants.HORIZONTAL, userTextField1, userTextField2, startGameButton, warningLabel1, warningLabel2);
+        layout.linkSize(SwingConstants.VERTICAL, player1, player2, userTextField1, userTextField2);
+        layout.linkSize(SwingConstants.HORIZONTAL, player1, player2, userTextField1, userTextField2, startGameButton, warningLabel1, warningLabel2);
     }
 }
