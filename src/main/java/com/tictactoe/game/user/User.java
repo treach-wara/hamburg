@@ -20,4 +20,8 @@ public class User {
     public String getSymbolName() {
         return this.symbol.name();
     }
+
+    public void swap() {
+        next = !next;
+    }
 }
