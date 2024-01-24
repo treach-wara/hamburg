@@ -2,6 +2,7 @@ package com.tictactoe.game.grid;
 
 import com.tictactoe.game.exceptions.NoWinnerException;
 import com.tictactoe.game.user.User;
+import com.tictactoe.windows.ResultWindow;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -37,7 +38,8 @@ public class GameLogic {
     public void determineWinner() {
         if (this.round >= 5) {
             try {
-                winner = calculateWinner();
+                this.winner = calculateWinner();
+                new ResultWindow(winner);
             } catch (NoWinnerException e) {
                 nextRound();
             }
