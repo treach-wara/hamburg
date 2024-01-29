@@ -1,6 +1,5 @@
 package com.tictactoe.game.grid;
 
-import com.tictactoe.game.exceptions.NoWinnerException;
 import com.tictactoe.game.user.User;
 import com.tictactoe.windows.ResultWindow;
 
@@ -34,9 +33,11 @@ public class GameLogic {
             Symbol winner = calculateWinner();
             if(winner != Symbol.U) {
                 new ResultWindow(winner);
+                disableButtons();
             }
             if(round == 9) {
                 new ResultWindow(winner);
+                disableButtons();
             }
         }
         round++;
@@ -99,5 +100,13 @@ public class GameLogic {
     private void swap() {
         user1.swap();
         user2.swap();
+    }
+
+    private void disableButtons() {
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                buttons[i][j].setEnabled(false);
+            }
+        }
     }
 }

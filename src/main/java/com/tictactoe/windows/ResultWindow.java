@@ -17,7 +17,8 @@ public class ResultWindow {
         this.window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.result = result;
         this.setText();
-        this.window.getContentPane().add(label);
+        panel.add(label);
+        this.window.getContentPane().add(panel);
         this.utility.setAndCenterPanel(panel);
         this.window.setVisible(true);
     }
